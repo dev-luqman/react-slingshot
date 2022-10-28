@@ -10,8 +10,10 @@ jobs:
       - save_cache:
           key: 'npm-package'
           paths:
-           - /src/node_module
+           - /src
       - run: exit 0
+      - run: ls -la /src
+      - run: ls -la 
 
   lint_frontend:
     docker:
