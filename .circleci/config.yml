@@ -1,0 +1,53 @@
+version: 2.1
+
+commands:
+  print_on_fail:
+    steps:
+      - run:
+          name: only run when failed
+          command: echo running because previous step fail
+          when: on_fail
+
+
+jobs:
+  build_frontend:
+    docker:
+      - image: circleci/node:13.8.0
+
+    - checkout
+    steps:
+      - run: npm i
+      - save_cache:
+          key: 'npm-package'
+          paths:
+           - /src/node_module
+      - run: npm run build
+
+  lint_frontend:
+    docker:
+      - image: circleci/node:13.8.0
+
+    - checkout
+    steps:
+      - restore_cache:
+          key:
+           - 'npm-package'
+      - run: npm i
+      - run: npm run lint
+
+  audit_frontend:
+    docker:
+      - image: circleci/node:13.8.0
+
+    - checkout
+    steps:
+      - run: npm audit
+ 
+
+workflows:
+  welcome:
+    jobs:
+      - build_frontend
+      - lint_frontend:
+          requires:
+            - build_frontend
