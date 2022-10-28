@@ -2,9 +2,9 @@
 # default: &default_docker
 #   docker: - image: circleci/node:13.8.0
 
-  defaults: &default_docker
-    docker:
-      - image: docker:18.01.0-ce-git
+defaults: &default_docker
+  docker:
+    - image: docker:18.01.0-ce-git
 
 version: 2.1
 
