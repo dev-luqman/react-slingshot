@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key:
+          keys:
            - 'npm-package'
       - run: npm i
       - run: npm run lint
