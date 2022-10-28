@@ -12,7 +12,6 @@ jobs:
           paths:
            - /src
       - run: exit 0
-      - run: ls -la /src
       - run: ls -la 
 
   lint_frontend:
