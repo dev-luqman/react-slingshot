@@ -10,7 +10,7 @@ jobs:
       - save_cache:
           key: 'npm-package'
           paths:
-           - /src
+           - /src/node_modules
       - run: exit 0
       - run: ls -la 
 
@@ -25,12 +25,12 @@ jobs:
       - run: npm i
       - run: npm run lint
 
-  # audit_frontend:
-  #   docker:
-  #     - image: circleci/node:13.8.0
-  #   steps:
-  #     - checkout
-  #     - run: npm audit
+  audit_frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run: npm audit
  
 
 workflows:
@@ -40,6 +40,6 @@ workflows:
       - lint_frontend:
           requires:
             - build_frontend
-      # - audit_frontend:
-      #     requires:
-      #       - lint_frontend
+      - audit_frontend:
+          requires:
+            - lint_frontend
