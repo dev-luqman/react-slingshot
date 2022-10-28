@@ -1,7 +1,9 @@
-version: 2.1
-
+# Setting default value to use across all
 default: &default_docker
   docker: - image: circleci/node:13.8.0
+
+
+version: 2.1
 
 jobs:
   build_frontend:
