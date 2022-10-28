@@ -1,9 +1,13 @@
 version: 2.1
 
+default: $default_docker
+  docker: - image: circleci/node:13.8.0
+
 jobs:
   build_frontend:
-    docker:
-      - image: circleci/node:13.8.0
+    # docker:
+    #   - image: circleci/node:13.8.0
+    <<: *default_docker
     steps:
       - checkout
       - run: npm i
