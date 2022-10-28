@@ -13,9 +13,8 @@ jobs:
   build_frontend:
     docker:
       - image: circleci/node:13.8.0
-
-    - checkout
     steps:
+      - checkout
       - run: npm i
       - save_cache:
           key: 'npm-package'
@@ -26,9 +25,8 @@ jobs:
   lint_frontend:
     docker:
       - image: circleci/node:13.8.0
-
-    - checkout
     steps:
+      - checkout
       - restore_cache:
           key:
            - 'npm-package'
@@ -38,9 +36,8 @@ jobs:
   audit_frontend:
     docker:
       - image: circleci/node:13.8.0
-
-    - checkout
     steps:
+      - checkout
       - run: npm audit
  
 
