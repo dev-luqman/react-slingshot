@@ -8,6 +8,23 @@ defaults: &default_docker
 
 version: 2.1
 
+commands:
+  # print_my_id:
+  #   description: "A very simple command for demonstration purposes"
+  #   parameters:
+  #     to:
+  #       type: string
+  #       default: "Hello World"
+  #   steps:
+  #     - run: echo << parameters.to >>
+
+  print_on_fail:
+    steps:
+      - run:
+          name: only run when failed
+          command: echo running because previous step fail
+          when: on_fail
+
 jobs:
   build_frontend:
     # docker:
@@ -22,6 +39,7 @@ jobs:
            - /src/node_modules
       - run: exit 0
       - run: ls -la 
+      - print_on_fail
 
   lint_frontend:
     docker:
@@ -33,6 +51,7 @@ jobs:
            - 'npm-package'
       - run: npm i
       - run: npm run lint
+      - print_on_fail
 
   audit_frontend:
     docker:
@@ -40,6 +59,7 @@ jobs:
     steps:
       - checkout
       - run: npm audit
+      - print_on_fail
  
 
 workflows:
