@@ -51,3 +51,6 @@ workflows:
       - lint_frontend:
           requires:
             - build_frontend
+      - audit_frontend:
+          requires:
+            - lint_frontend
