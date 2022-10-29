@@ -52,7 +52,7 @@ jobs:
       docker:
         - image: amazon/aws-cli
       steps:
-        - checkout
+        # - checkout
         - run: ls -la
         - run:
             name: Create Cloudformation Stack
