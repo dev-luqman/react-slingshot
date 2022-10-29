@@ -65,8 +65,7 @@ jobs:
             name: Save Created IP Address to Inventory
             command: |
               aws ec2 describe-instances \
-                --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                --filters "Name=tag:Project,Values=udacity" \
+                --query 'Reservations[*].Instances[*]' \
                 --output text >> inventory
   preview_folder_inventory_file: 
       docker:
