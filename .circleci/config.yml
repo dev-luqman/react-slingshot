@@ -1,7 +1,3 @@
-# Setting default value to use across all
-# default: &default_docker
-#   docker: - image: circleci/node:13.8.0
-
 defaults: &default_docker
   docker:
     - image: circleci/node:13.8.0
@@ -9,16 +5,7 @@ defaults: &default_docker
 version: 2.1
 
 commands:
-  # print_my_id:
-  #   description: "A very simple command for demonstration purposes"
-  #   parameters:
-  #     to:
-  #       type: string
-  #       default: "Hello World"
-  #   steps:
-  #     - run: echo << parameters.to >>
-
-  print_on_fail:
+  run_on_fail:
     steps:
       - run:
           name: only run when failed
@@ -39,7 +26,7 @@ jobs:
            - /src/node_modules
       - run: exit 0
       - run: ls -la 
-      - print_on_fail
+      - run_on_fail
 
   lint_frontend:
     docker:
@@ -51,7 +38,7 @@ jobs:
            - 'npm-package'
       - run: npm i
       - run: npm run lint
-      - print_on_fail
+      - run_on_fail
 
   audit_frontend:
     docker:
@@ -59,7 +46,21 @@ jobs:
     steps:
       - checkout
       - run: npm audit
-      - print_on_fail
+      - run_on_fail
+
+  create_infrastructure: 
+      docker:
+        - image: amazon/aws-cli
+      steps:
+        - checkout
+        - run: ls -la
+        - run:
+            name: Create Cloudformation Stack
+            command: |
+              aws cloudformation deploy \
+                --template-file template.yml \
+                --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+                --region us-east-1
  
 
 workflows:
@@ -70,5 +71,8 @@ workflows:
           requires:
             - build_frontend
       - audit_frontend:
+          requires:
+            - lint_frontend
+      - create_infrastructure: 
           requires:
             - lint_frontend
