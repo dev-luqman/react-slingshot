@@ -67,10 +67,8 @@ jobs:
               aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*]' \
                 --output text >> inventory
-        - run:
-            name: Preview inventory
-            cammand: cat inventory
-            
+        - run: cat inventory
+        - run: echo "input me under inventory" >> inventory
   preview_folder_inventory_file: 
       docker:
         - image: amazon/aws-cli
