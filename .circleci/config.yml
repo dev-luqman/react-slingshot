@@ -61,7 +61,21 @@ jobs:
                 --template-file template.yml \
                 --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
                 --region us-east-1
- 
+        - run:
+            name: Save Created IP Address to Inventory
+            command: |
+              aws ec2 describe-instances \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --filters "Name=tag:Project,Values=udacity" \
+                --output text >> inventory
+  preview_folder_inventory_file: 
+      docker:
+        - image: amazon/aws-cli
+      steps:
+        - checkout
+        - run: ls -la
+        - run: cat inventory
+
 
 workflows:
   welcome:
@@ -76,3 +90,6 @@ workflows:
       - create_infrastructure: 
           requires:
             - lint_frontend
+      - preview_folder_inventory_file: 
+          requires: 
+            - create_infrastructure
