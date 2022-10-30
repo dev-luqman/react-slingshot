@@ -169,10 +169,10 @@ workflows:
       # - ansible_configure_server: 
       #     requires: 
       #       - create_infrastructure
-      # - ansible_configure_server
-      - smoke_test:
-          requires:
-            - create_infrastructure
+      # # - ansible_configure_server
+      # - smoke_test:
+      #     requires:
+      #       - create_infrastructure
       - create_and_deploy_front_end
       - get_last_deployment_id:
           requires: 
