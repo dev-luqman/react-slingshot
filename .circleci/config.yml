@@ -77,7 +77,6 @@ jobs:
       - run:
           name: smoke test / simulate error
           command: |
-          # simulated error with url : googlr.com not google.com
             URL="http://googlr.com/"
             # Test if website exists
             if curl -s --head ${URL} 
