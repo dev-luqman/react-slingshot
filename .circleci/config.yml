@@ -87,7 +87,7 @@ jobs:
               return 0
             else
               return 1
-         fi
+            fi
 
 workflows:
   welcome:
@@ -105,5 +105,5 @@ workflows:
       # - ansible_configure_server: 
       #     requires: 
       #       - create_infrastructure
-      - ansible_configure_server
+      # - ansible_configure_server
       - smoke_test
