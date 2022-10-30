@@ -32,8 +32,8 @@
     production: yes
     state: present
 
-# - name: "create a web directory"
-#   shell: rm -r ~/web && mkdir ~/web
+- name: "create a web directory"
+  shell: mkdir ~/web
 
 - name: "Copy File to our Web Dir."
   copy:
