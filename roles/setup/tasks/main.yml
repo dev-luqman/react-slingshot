@@ -34,6 +34,7 @@
 
 - name: "create a web directory"
   shell: rm -r ~/web && mkdir ~/web
+  state: absent
 
 - name: "Copy File to our Web Dir."
   copy:
