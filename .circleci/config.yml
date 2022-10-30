@@ -76,7 +76,7 @@ jobs:
       - run: apk add --update curl
       - run:
           name: smoke test / simulate error
-          command: exit 0
+          command: exit 1
           # command: |
           #   URL="http://googlr.com/"
           #   # Test if website exists
