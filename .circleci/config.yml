@@ -105,4 +105,6 @@ workflows:
       #     requires: 
       #       - create_infrastructure
       # - ansible_configure_server
-      - smoke_test
+      - smoke_test:
+          requires:
+            - create_infrastructure
