@@ -5,12 +5,14 @@ defaults: &default_docker
 version: 2.1
 
 commands:
-  run_on_fail:
+   # Exercise - Rollback
+  destroy_environment:
     steps:
       - run:
-          name: only run when failed
-          command: echo running because previous step fail
+          name: Destroy environment
           when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
 
 jobs:
   build_frontend:
@@ -58,7 +60,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file template.yml \
-              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
               --region us-east-1
   ansible_configure_server: 
     docker:
@@ -78,9 +80,9 @@ jobs:
     steps:
       - run: apk add --update curl
       - run:
-          name: smoke test
+          name: smoke test / simulate error
           command: |
-            URL="http://54.159.11.0:3001/"
+            URL="http://googlr.com/"
             # Test if website exists
             if curl -s --head ${URL} 
             then
@@ -88,6 +90,7 @@ jobs:
             else
               return 1
             fi
+      - destroy_environment
 
 workflows:
   welcome:
