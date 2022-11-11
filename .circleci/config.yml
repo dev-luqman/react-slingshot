@@ -162,12 +162,12 @@ workflows:
       - audit_frontend:
           requires:
             - lint_frontend
-      # - create_infrastructure: 
-      #     requires:
-      #       - lint_frontend
-      # - ansible_configure_server: 
-      #     requires: 
-      #       - create_infrastructure
+      - create_infrastructure: 
+          requires:
+            - lint_frontend
+      - ansible_configure_server: 
+          requires: 
+            - create_infrastructure
       # # - ansible_configure_server
       # - smoke_test:
       #     requires:
