@@ -15,6 +15,14 @@ commands:
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
 
 jobs:
+
+  add_ssh_to_job: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:   ["4a:e1:27:2d:e3:17:ed:eb:33:6f:92:b0:19:91:fe:73"]
   build_frontend:
     # docker:
     #   - image: circleci/node:13.8.0
@@ -155,31 +163,32 @@ jobs:
 workflows:
   welcome:
     jobs:
-      - build_frontend
-      - lint_frontend:
-          requires:
-            - build_frontend
-      - audit_frontend:
-          requires:
-            - lint_frontend
-      - create_infrastructure: 
-          requires:
-            - lint_frontend
-      - ansible_configure_server: 
-          requires: 
-            - create_infrastructure
+      - add_ssh_to_job
+      # - build_frontend
+      # - lint_frontend:
+      #     requires:
+      #       - build_frontend
+      # - audit_frontend:
+      #     requires:
+      #       - lint_frontend
+      # - create_infrastructure: 
+      #     requires:
+      #       - lint_frontend
+      # - ansible_configure_server: 
+      #     requires: 
+      #       - create_infrastructure
       # # - ansible_configure_server
       # - smoke_test:
       #     requires:
       #       - create_infrastructure
-      - create_and_deploy_front_end
-      - get_last_deployment_id:
-          requires: 
-            - create_and_deploy_front_end
-      - promote_to_production: 
-          requires: 
-            - create_and_deploy_front_end
-      - clean_up_old_front_end:
-          requires: 
-            - get_last_deployment_id
-            - promote_to_production
+      # - create_and_deploy_front_end
+      # - get_last_deployment_id:
+      #     requires: 
+      #       - create_and_deploy_front_end
+      # - promote_to_production: 
+      #     requires: 
+      #       - create_and_deploy_front_end
+      # - clean_up_old_front_end:
+      #     requires: 
+      #       - get_last_deployment_id
+      #       - promote_to_production
