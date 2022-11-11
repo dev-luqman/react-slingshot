@@ -22,6 +22,7 @@ jobs:
     steps:
       - checkout
       - run: cd ./roles
+      - run: ls
       - add_ssh_keys:
           fingerprints:   ["4a:e1:27:2d:e3:17:ed:eb:33:6f:92:b0:19:91:fe:73"]
   build_frontend:
