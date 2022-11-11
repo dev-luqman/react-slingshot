@@ -63,7 +63,6 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-              # You can get this ID in the section where you registered the SSH Key
           fingerprints:   ["4a:e1:27:2d:e3:17:ed:eb:33:6f:92:b0:19:91:fe:73"]
       - run: apk add --update ansible 
       - run: apk add --update ansible openssh
@@ -145,7 +144,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Destroy the previous S3 bucket and CloudFormation stack. 
+          name: Destroy the previous S3 bucket and CloudFormation stack
           # Use $OldBucketID environment variable or mybucket644752792305 below.
           # Similarly, you can create and use $OldStackID environment variable in place of production-distro 
           command: |
